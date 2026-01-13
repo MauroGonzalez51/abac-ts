@@ -2,9 +2,10 @@ import { antfu } from "@antfu/eslint-config";
 import depend from "eslint-plugin-depend";
 import sonarjs from "eslint-plugin-sonarjs";
 
-
 export default antfu(
     {
+        type: "lib",
+        typescript: true,
         stylistic: {
             quotes: "double",
             indent: 4,
