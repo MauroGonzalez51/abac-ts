@@ -104,6 +104,6 @@ export type PermissionContext<
 
 export interface PermissionReturnType {
     allowed: boolean;
-    matchedRole: UserRole | null;
+    matchedRole: PropertyKey | null;
     reason: string;
 }
