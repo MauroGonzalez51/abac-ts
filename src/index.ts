@@ -47,7 +47,7 @@ export function createEngine<const T extends PermissionsWithRoles>(rolesDefiniti
         return permission;
     }
 
-    function hasPermission<UserType extends User, RoleType extends UserType["role"], Model extends keyof PermissionsWithModels, Action extends PermissionsWithModels[Model]["action"]>(ctx: PermissionContext<RequirementsMap, UserType, RoleType, Model, Action>): PermissionReturnType {
+    function explain<UserType extends User, RoleType extends UserType["role"], Model extends keyof PermissionsWithModels, Action extends PermissionsWithModels[Model]["action"]>(ctx: PermissionContext<RequirementsMap, UserType, RoleType, Model, Action>): PermissionReturnType {
         const rolesSet = ROLE_HIERARCHY[ctx.user.role as keyof T] ?? [ctx.user.role as keyof T];
         const inheritedRoles = [...new Set(rolesSet)] as Array<keyof T>;
 
@@ -96,5 +96,9 @@ export function createEngine<const T extends PermissionsWithRoles>(rolesDefiniti
         };
     }
 
-    return { hasPermission };
+    function hasPermission<UserType extends User, RoleType extends UserType["role"], Model extends keyof PermissionsWithModels, Action extends PermissionsWithModels[Model]["action"]>(ctx: PermissionContext<RequirementsMap, UserType, RoleType, Model, Action>): boolean {
+        return explain(ctx).allowed;
+    }
+
+    return { explain, hasPermission };
 }

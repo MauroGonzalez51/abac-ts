@@ -27,12 +27,12 @@
     ],
     "scripts": {
         "build": "tsup",
-        "test": "vitest --coverage --ui"
+        "test": "vitest --coverage"
     },
     "devDependencies": {
         "@antfu/eslint-config": "^7.0.0",
+        "@types/node": "^25.0.8",
         "@vitest/coverage-v8": "4.0.17",
-        "@vitest/ui": "^4.0.17",
         "eslint": "^9.39.2",
         "eslint-plugin-depend": "^1.4.0",
         "eslint-plugin-sonarjs": "^3.0.5",

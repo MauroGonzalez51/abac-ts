@@ -15,7 +15,7 @@ export type PermissionFunctionRequired<
 > = (ctx: {
     user: User;
     data: PermissionsWithModels[K]["dataType"];
-}) => boolean;
+}) => boolean & { readonly __brand: "required" };
 
 export type PermissionFunctionOptional<
     K extends keyof PermissionsWithModels,
@@ -93,7 +93,7 @@ export type PermissionContext<
         model: Model;
         action: Action;
         user: U;
-        data?: undefined;
+        data?: PermissionsWithModels[Model]["dataType"];
     }
     : {
         model: Model;

@@ -18,13 +18,13 @@ export const permission = {
                 data?: PermissionsWithModels[K]["dataType"];
             }) => boolean,
         ): PermissionFunctionRequired<K> =>
-            (ctx) => {
+            ((ctx) => {
                 if (!ctx.data) {
                     return false;
                 }
 
                 return fn({ user: ctx.user, data: ctx.data });
-            },
+            }) as PermissionFunctionRequired<K>,
 
     and: {
         check:
@@ -48,7 +48,7 @@ export const permission = {
                     }) => boolean
                 >
             ): PermissionFunctionRequired<K> =>
-                (ctx) => {
+                ((ctx) => {
                     if (!ctx.data) {
                         return false;
                     }
@@ -56,7 +56,7 @@ export const permission = {
                     return checks.every((check) =>
                         check({ user: ctx.user, data: ctx.data }),
                     );
-                },
+                }) as PermissionFunctionRequired<K>,
     },
 
     or: {
@@ -81,7 +81,7 @@ export const permission = {
                     }) => boolean
                 >
             ): PermissionFunctionRequired<K> =>
-                (ctx) => {
+                ((ctx) => {
                     if (!ctx.data) {
                         return false;
                     }
@@ -89,6 +89,6 @@ export const permission = {
                     return checks.some((check) =>
                         check({ user: ctx.user, data: ctx.data }),
                     );
-                },
+                }) as PermissionFunctionRequired<K>,
     },
 };
