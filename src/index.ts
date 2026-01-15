@@ -20,13 +20,6 @@ export function createEngine<const T extends PermissionsWithRoles>(
     rolesDefinition: T,
     options?: Partial<CreateEngineOptions<T>>,
 ) {
-    const ROLE_HIERARCHY =
-        options?.roleHierarchy ??
-        Object.keys(rolesDefinition).reduce((acc, role) => {
-            acc[role as keyof T] = [role as keyof T];
-            return acc;
-        }, {} as Record<keyof T, Array<keyof T>>);
-
     // eslint-disable-next-line ts/explicit-function-return-type
     function getPermission<
         Model extends keyof PermissionsWithModels,
@@ -69,11 +62,10 @@ export function createEngine<const T extends PermissionsWithRoles>(
         Model extends keyof PermissionsWithModels,
         Action extends PermissionsWithModels[Model]["action"],
     >(ctx: PermissionContext<Model, Action>): PermissionReturnType {
-        const rolesSet = ROLE_HIERARCHY[ctx.user.role as keyof T] ?? [
-            ctx.user.role as keyof T,
-        ];
+        const userRole = ctx.user.role as keyof T;
+        const rolesSet = options?.roleHierarchy?.[userRole] ?? [userRole];
         const inheritedRoles = [...new Set(rolesSet)] as Array<keyof T>;
-
+        
         for (const role of inheritedRoles) {
             const permission = getPermission({
                 model: ctx.model,
