@@ -1,7 +1,7 @@
 {
     "name": "abac-ts-engine",
     "type": "module",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "packageManager": "pnpm@10.28.0",
     "description": "Attribute-Based Access Control (ABAC) engine for TypeScript",
     "author": "mauro_gonzalez5147",
