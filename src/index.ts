@@ -5,6 +5,7 @@ import type {
     PermissionsWithModels,
     PermissionsWithRoles,
     User,
+    UserRole,
 } from "@/types/index";
 
 export { permission } from "@/functions";
@@ -77,7 +78,7 @@ export function createEngine<const T extends PermissionsWithRoles>(
             const permission = getPermission({
                 model: ctx.model,
                 action: ctx.action,
-                user: ctx.user,
+                user: { ...ctx.user, role: role as UserRole },
             });
             if (permission === undefined) {
                 continue;
@@ -94,7 +95,7 @@ export function createEngine<const T extends PermissionsWithRoles>(
             if (typeof permission === "function") {
                 return {
                     allowed: (permission as PermissionFunction<Model>)({
-                        user: ctx.user,
+                        user: { ...ctx.user, role: role as UserRole },
                         ...(ctx.data !== undefined && { data: ctx.data }),
                     }),
                     matchedRole: role,
